@@ -623,7 +623,7 @@ extension ViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let data = photo.fileDataRepresentation() else { return }
         let image = UIImage(data: data)
-//        session?.stopRunning()
+        session?.stopRunning()
         imageView.image = image
     
         print("DATA : ", image?.imageAsset)
