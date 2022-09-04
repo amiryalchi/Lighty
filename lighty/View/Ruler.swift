@@ -8,7 +8,7 @@
 import UIKit
 import NMMultiUnitRuler
 
-class Ruler: UIViewController ,NMMultiUnitRulerDataSource, NMMultiUnitRulerDelegate {
+class ViewController: UIViewController ,NMMultiUnitRulerDataSource, NMMultiUnitRulerDelegate {
     
 //    weak var ruler: RKMultiUnitRuler?
     weak var controlHConstraint: NSLayoutConstraint?
@@ -30,7 +30,7 @@ class Ruler: UIViewController ,NMMultiUnitRulerDataSource, NMMultiUnitRulerDeleg
         ruler.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         ruler.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         ruler.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -100).isActive = true
-        ruler.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        ruler.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
     var rangeStart = Measurement(value: 30.0, unit: UnitMass.kilograms)
@@ -132,7 +132,7 @@ class Ruler: UIViewController ,NMMultiUnitRulerDataSource, NMMultiUnitRulerDeleg
          if unit == UnitMass.pounds {
 
              style.textFieldBackgroundColor = UIColor.clear
-             // color override location:location+40% red , location+60%:location.100% green
+//              color override location:location+40% red , location+60%:location.100% green
          } else {
              style.textFieldBackgroundColor = UIColor.red
          }
