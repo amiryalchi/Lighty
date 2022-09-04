@@ -13,6 +13,7 @@
 		29A2E64F28A6021500E0B1B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29A2E64D28A6021500E0B1B3 /* Main.storyboard */; };
 		29A2E65128A6021700E0B1B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29A2E65028A6021700E0B1B3 /* Assets.xcassets */; };
 		29A2E65428A6021700E0B1B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29A2E65228A6021700E0B1B3 /* LaunchScreen.storyboard */; };
+		29B59BBA28C4322E0069E97D /* Ruler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B59BB928C4322E0069E97D /* Ruler.swift */; };
 		78D728A41E38281D34325206 /* Pods_lighty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64472FB2B0C44AEB78756A7B /* Pods_lighty.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		29A2E65028A6021700E0B1B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		29A2E65328A6021700E0B1B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		29A2E65528A6021700E0B1B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		29B59BB928C4322E0069E97D /* Ruler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ruler.swift; sourceTree = "<group>"; };
 		5B9B2A67049E2AC9BF462D96 /* Pods-lighty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lighty.release.xcconfig"; path = "Target Support Files/Pods-lighty/Pods-lighty.release.xcconfig"; sourceTree = "<group>"; };
 		64472FB2B0C44AEB78756A7B /* Pods_lighty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lighty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF26A0ADA88E86B5A5B54404 /* Pods-lighty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lighty.debug.xcconfig"; path = "Target Support Files/Pods-lighty/Pods-lighty.debug.xcconfig"; sourceTree = "<group>"; };
@@ -48,7 +50,6 @@
 				DF26A0ADA88E86B5A5B54404 /* Pods-lighty.debug.xcconfig */,
 				5B9B2A67049E2AC9BF462D96 /* Pods-lighty.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -104,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				29A2E64B28A6021500E0B1B3 /* ViewController.swift */,
+				29B59BB928C4322E0069E97D /* Ruler.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -231,6 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29B59BBA28C4322E0069E97D /* Ruler.swift in Sources */,
 				29A2E64C28A6021500E0B1B3 /* ViewController.swift in Sources */,
 				29A2E64828A6021500E0B1B3 /* AppDelegate.swift in Sources */,
 				29A2E64A28A6021500E0B1B3 /* SceneDelegate.swift in Sources */,

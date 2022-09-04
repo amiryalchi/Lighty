@@ -10,17 +10,21 @@ import Photos
 import PhotosUI
 import AVFoundation
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+
+
     let apertures: [Double] = [1.0, 1.2, 1.4, 2.0, 2.8, 4.0,5.6, 8.0, 11.0, 16.0, 22.0, 32.0]
     let isos: [Double] = [25, 50, 100, 200, 400, 800, 1600, 3200, 6400]
     let shutters: [Double] = [1, 2, 4, 8, 15, 30, 60, 125, 250, 500, 1000, 2000, 4000]
-    
+
     private var aperture: Double?
     private var iso: Double?
     private var shutter: Double?
     private var EV: Double?
-    
+
+    var numberOfSegments: Int = 2
+
     var binarySw: Bool = true
     var session: AVCaptureSession?
     let output = AVCapturePhotoOutput()
@@ -29,8 +33,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var pickedImage = false
     var image: UIImage?
     var pickerView = UIPickerView()
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -38,40 +41,46 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         pickerView.delegate = self
         pickerView.dataSource = self
 
+
         previewLayer.backgroundColor = UIColor.systemRed.cgColor
         imageView.layer.addSublayer(previewLayer)
-        
+
         checkCameraPermission()
         setupStackConstraints()
-        
+
         apertureTextField.inputView = pickerView
         isoTextField.inputView = pickerView
         shutterTextField.inputView = pickerView
-        
+
     }
     override func viewWillAppear(_ animated: Bool) {
        super.viewWillAppear(animated)
-       
+
        AppUtility.lockOrientation(.portrait)
        // Or to rotate and lock
        // AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
-       
+
    }
 
    override func viewWillDisappear(_ animated: Bool) {
        super.viewWillDisappear(animated)
-       
+
        // Don't forget to reset when view is being removed
        AppUtility.lockOrientation(.all)
    }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         previewLayer.frame = imageView.bounds
     }
-    
+
     // MARK: UI ELEMENTS
     
+    let rulerView : Ruler = {
+        let rul = Ruler()
+        return rul
+    }()
+
     let imageView: UIImageView = {
         let iVieiw = UIImageView()
         iVieiw.layer.borderWidth = 5
@@ -80,7 +89,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         iVieiw.layer.masksToBounds = true
         return iVieiw
     }()
-    
+
     let segmentedSwitch: UISegmentedControl = {
         let swt = UISegmentedControl(items: ["Aperture", "Shutter"])
         swt.backgroundColor = UIColor(red: 150/255, green: 51/255, blue: 163/255, alpha: 1)
@@ -88,8 +97,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         swt.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
         return swt
     }()
-    
-    
+
+
     let CButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = UIColor(red: 150/255, green: 51/255, blue: 163/255, alpha: 1)
@@ -100,7 +109,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         button.addTarget(self, action: #selector(ReTakePhoto), for: .touchUpInside)
         return button
     }()
-    
+
     let EvTextField: UITextField = {
         let aTextField = UITextField()
         aTextField.placeholder = "Exposure Value"
@@ -138,15 +147,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         stack.spacing = 10
         return stack
     }()
-    
-    
+
+
     // MARK: FUNCTIONS AND METHODS
-    
+
+
     private func roundingByDecimal(inp: Double, dec: Double) -> Double {
         let fac = pow(10.0, dec)
         return Double(round(fac * inp) / fac )
     }
-    
+
     @objc private func handleSegmentChange() {
         print(segmentedSwitch.selectedSegmentIndex)
         clearFields()
@@ -168,7 +178,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         }
     }
-    
+
     @objc func ReTakePhoto(){
         pickedImage = false
         if UIImagePickerController.isSourceTypeAvailable(.camera) && !pickedImage {
@@ -181,42 +191,42 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             clearFields()
         }
     }
-    
-    
+
+
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
 
         let dictionary = info[.mediaMetadata] as! NSDictionary
         guard let exif = dictionary["{Exif}"] as? NSDictionary else {return}
         guard let brg = exif["BrightnessValue"] as? Double? else {return}
-        
+
         imageView.image = image
         print("BRIGHTNESS: ", dictionary)
         print("BRIGHTNESS EV: ", brg!)
         EV = brg
         EvTextField.text = "\(brg!)"
-        
+
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     override func touchesBegan(_: Set<UITouch>, with: UIEvent?){
         self.view.endEditing(true)
 
     }
-    
+
     // new camera method
-    
+
     @objc private func didTapTakePhoto(){
         output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
     }
-    
+
     private func checkCameraPermission(){
         switch AVCaptureDevice.authorizationStatus(for: .video) {
-            
+
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
                 guard granted else {
@@ -243,7 +253,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         apertureTextField.text = nil
         shutterTextField.text = nil
     }
-    
+
     private func setUpCamera() {
         let session = AVCaptureSession()
         if let device = AVCaptureDevice.default(for: .video) {
@@ -255,7 +265,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 if session.canAddOutput(output) {
                     session.addOutput(output)
                 }
-                
+
                 previewLayer.videoGravity = .resizeAspectFill
                 previewLayer.session = session
                 session.startRunning()
@@ -266,44 +276,44 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
-    
-    
+
+
     // MARK: SHUTTER CALCULATOR
-    
+
     func calculateShutterSpeed(fNumber: Double, ev: Double, isoe: Double) -> Double {
-        
+
         var ss = exp(2 * log2(fNumber) - ev - log2(isoe / 3.125))
 
         self.aperture = fNumber
         self.EV = ev
         self.iso = isoe
-        
+
         print("Calculated Sutter Speed: ", ss)
-        
+
 //        ss = calculateShutterByNewIso(iso: iso, shutterS: ss)
 //        print ("Final Shutter Speed: ", ss)
         print("ISO IS: ", iso)
         print("F NUMBER: ", self.aperture)
         shutterTextField.text = "\(ss)"
-        
+
         isoTextField.text = "\(iso)"
         apertureTextField.text = "\(self.aperture)"
-        
+
         ss = shutterSpeedCategorizer(ss: ss)
-        
+
         return ss
     }
-    
+
     func calculateShutterByNewIso(iso: Double, shutterS: Double) -> Double {
         let newShutter: Double
         let factor = sqrt(iso / 100)
         newShutter = shutterS / (pow(2, factor))
         return newShutter
     }
-    
+
     private func shutterSpeedCategorizer(ss: Double) -> Double {
         var sss: Double = 0.0
-        
+
         if ss >= (1/4000) && ss < (1/2000) {
             sss = (1/2000)
         }
@@ -361,60 +371,60 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         else if ss >= 60 {
             sss = floor(ss)
         }
-        
+
         sss = roundingByDecimal(inp: sss, dec: 4.0)
-        
+
         print("sgutter speed AFTER CATEGORIZING: ", sss)
         shutterTextField.text = "\(sss)"
         return sss
     }
-    
+
     // MARK: F NUMBER CALCULATOR
-    
+
     func calculateFNumber(aprSpeed: Double, ev: Double, iso: Double) -> Double {
-            
+
 //        var fn = exp(ev + log2(1 / aprSpeed)) / 2
         var FN = exp((ev + log2(1 / aprSpeed) + log2(iso / 3.125)) / 2 )
-        
+
         print ("Calculated F Number: ", FN)
-        
+
 //        FN = calculateFNumberByNewIso(iso: iso, fnumber: FN)
         print ("Final F Number: ", FN)
         print("ISO IS : ", iso)
         print("SHUTTER SPEED : ", shutter)
-        
+
         isoTextField.text = "\(iso)"
 //        shutterTextField.text = "\(shutter)"
-        
+
         FN = fNumberCategorizer(fn: FN)
-        
+
         return FN
     }
-    
+
     func calculateFNumberByNewIso(iso: Double, fnumber: Double) -> Double {
-        
+
         let factor = sqrt(iso / 100)
         let newFNumber: Double
-        
+
         if factor == 1 {
             newFNumber = fnumber
-            
+
         } else if factor > 1 {
-            
+
             newFNumber = fnumber + factor
-            
+
         }else {
-            
+
             newFNumber = fnumber - factor
         }
         print("*** newFNumber: ", newFNumber)
         return newFNumber
-        
+
     }
-    
+
     private func fNumberCategorizer(fn: Double) -> Double {
         var ffn: Double = 0.0
-        
+
         if fn < 1 {
             ffn = 0.95
             apertureTextField.text = "Too Dark!"
@@ -469,37 +479,37 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         print("F NUMBER AFTER CATEGORIZING: ", ffn)
         return ffn
     }
-    
+
     // MARK: EV CALCULATOR
-    
+
     func calculateEV(isoP: Double, aperture: Double, shutter: Double) -> Double {
         return (2 * log2(aperture)) - log2(shutter) - log2(isoP / 3.125)
-        
+
     }
-    
+
     func logC(value: Double, base: Double) -> Double {
         return log(value)/log(base)
     }
-    
+
     func getExif(image: NSData) -> NSDictionary {
         let imageSourceRef = CGImageSourceCreateWithData(image, nil)
         let currentProperties = CGImageSourceCopyPropertiesAtIndex(imageSourceRef!, 0, nil)
         let mutableDic = NSMutableDictionary(dictionary: currentProperties!)
         return mutableDic
     }
-    
+
     // MARK: UI AUTO LAYOUT
-    
+
     func setupStackConstraints(){
-        
-        view.addSubview(stackView)
+
+        view.addSubview(rulerView.view)
         view.addSubview(CButton)
         view.addSubview(imageView)
         view.addSubview(segmentedSwitch)
-        
-        
+
+
         // constraints x, y, h, w for inputContainerView
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        rulerView.view.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         CButton.translatesAutoresizingMaskIntoConstraints = false
         segmentedSwitch.translatesAutoresizingMaskIntoConstraints = false
@@ -508,22 +518,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         segmentedSwitch.bottomAnchor.constraint(equalTo: imageView.topAnchor, constant: -10).isActive = true
         segmentedSwitch.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -24).isActive = true
         segmentedSwitch.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
+
         CButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         CButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
         CButton.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -24).isActive = true
         CButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        stackView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -24).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: CButton.topAnchor, constant: -50).isActive = true
-        stackView.heightAnchor.constraint(equalToConstant: 120).isActive = true
-        
-        imageView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -30).isActive = true
+
+        rulerView.view.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        rulerView.view.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -24).isActive = true
+        rulerView.view.bottomAnchor.constraint(equalTo: CButton.topAnchor, constant: -50).isActive = true
+        rulerView.view.heightAnchor.constraint(equalToConstant: 120).isActive = true
+
+        imageView.bottomAnchor.constraint(equalTo: rulerView.view.topAnchor, constant: -30).isActive = true
         imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: +100).isActive = true
         imageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: +30).isActive = true
         imageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
-        
+
     }
 
 }
@@ -531,7 +541,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // MARK: EXTENSIONS
 
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
@@ -541,7 +551,7 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         case 0: return "\(isos[row])"
         case 1: do {
             if binarySw {
-            
+
                 return "\(apertures[row])"
             } else {
                 return "\(shutters[row])"
@@ -551,7 +561,7 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         }
 
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case 0: return isos.count
@@ -588,7 +598,7 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
                 calculateFNumber(aprSpeed: shutter ?? 125, ev: EV ?? 0.0, iso: iso ?? 100.0)
                 return shutterTextField.text = "\(shutter!)"
             }
-            
+
         }
         default: do {
 
@@ -596,18 +606,18 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         }
         }
     }
-    
-    
-    
+
+
+
 }
 
 extension UIImage {
-    
+
     func scaleSpectRatio(targetSize: CGSize) -> UIImage {
         let wRatio = targetSize.width / size.width
         let hRatio = targetSize.height / size.height
         let scaleFactor = min(wRatio, hRatio)
-        
+
         let scaledImageSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
         let renderer = UIGraphicsImageRenderer(size: scaledImageSize)
         let scaledImage = renderer.image { _ in
@@ -625,15 +635,15 @@ extension ViewController: AVCapturePhotoCaptureDelegate {
         let image = UIImage(data: data)
         session?.stopRunning()
         imageView.image = image
-    
+
         print("DATA : ", image?.imageAsset)
-    
+
     }
 }
 struct AppUtility {
 
     static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
-    
+
         if let delegate = UIApplication.shared.delegate as? AppDelegate {
             delegate.orientationLock = orientation
         }
@@ -641,14 +651,12 @@ struct AppUtility {
 
     /// OPTIONAL Added method to adjust lock and rotate to the desired orientation
     static func lockOrientation(_ orientation: UIInterfaceOrientationMask, andRotateTo rotateOrientation:UIInterfaceOrientation) {
-   
+
         self.lockOrientation(orientation)
-    
+
         UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
         UINavigationController.attemptRotationToDeviceOrientation()
     }
 
 }
-extension UIColor {
-    
-}
+
