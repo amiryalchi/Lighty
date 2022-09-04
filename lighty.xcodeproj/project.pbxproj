@@ -13,6 +13,7 @@
 		29A2E64F28A6021500E0B1B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29A2E64D28A6021500E0B1B3 /* Main.storyboard */; };
 		29A2E65128A6021700E0B1B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29A2E65028A6021700E0B1B3 /* Assets.xcassets */; };
 		29A2E65428A6021700E0B1B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29A2E65228A6021700E0B1B3 /* LaunchScreen.storyboard */; };
+		78D728A41E38281D34325206 /* Pods_lighty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64472FB2B0C44AEB78756A7B /* Pods_lighty.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,9 @@
 		29A2E65028A6021700E0B1B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		29A2E65328A6021700E0B1B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		29A2E65528A6021700E0B1B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B9B2A67049E2AC9BF462D96 /* Pods-lighty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lighty.release.xcconfig"; path = "Target Support Files/Pods-lighty/Pods-lighty.release.xcconfig"; sourceTree = "<group>"; };
+		64472FB2B0C44AEB78756A7B /* Pods_lighty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lighty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF26A0ADA88E86B5A5B54404 /* Pods-lighty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lighty.debug.xcconfig"; path = "Target Support Files/Pods-lighty/Pods-lighty.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78D728A41E38281D34325206 /* Pods_lighty.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25F231A647BD8622F4E448E0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DF26A0ADA88E86B5A5B54404 /* Pods-lighty.debug.xcconfig */,
+				5B9B2A67049E2AC9BF462D96 /* Pods-lighty.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		29A2E63B28A6021500E0B1B3 = {
 			isa = PBXGroup;
 			children = (
 				29A2E64628A6021500E0B1B3 /* lighty */,
 				29A2E64528A6021500E0B1B3 /* Products */,
+				25F231A647BD8622F4E448E0 /* Pods */,
+				669C40FED822BE45D37FBD3E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,6 +108,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		669C40FED822BE45D37FBD3E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				64472FB2B0C44AEB78756A7B /* Pods_lighty.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -98,9 +123,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 29A2E65828A6021700E0B1B3 /* Build configuration list for PBXNativeTarget "lighty" */;
 			buildPhases = (
+				76F850396E12024CFE8F9B93 /* [CP] Check Pods Manifest.lock */,
 				29A2E64028A6021500E0B1B3 /* Sources */,
 				29A2E64128A6021500E0B1B3 /* Frameworks */,
 				29A2E64228A6021500E0B1B3 /* Resources */,
+				D155474422A37E669EF5B618 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -156,6 +183,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		76F850396E12024CFE8F9B93 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lighty-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D155474422A37E669EF5B618 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lighty/Pods-lighty-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-lighty/Pods-lighty-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-lighty/Pods-lighty-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		29A2E64028A6021500E0B1B3 /* Sources */ = {
@@ -306,6 +375,7 @@
 		};
 		29A2E65928A6021700E0B1B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF26A0ADA88E86B5A5B54404 /* Pods-lighty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -334,6 +404,7 @@
 		};
 		29A2E65A28A6021700E0B1B3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B9B2A67049E2AC9BF462D96 /* Pods-lighty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

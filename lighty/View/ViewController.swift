@@ -649,3 +649,6 @@ struct AppUtility {
     }
 
 }
+extension UIColor {
+    
+}

@@ -1,0 +1,6 @@
+framework module Pods_lighty {
+  umbrella header "Pods-lighty-umbrella.h"
+
+  export *
+  module * { export * }
+}

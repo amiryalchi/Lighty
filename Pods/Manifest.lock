@@ -1,0 +1,16 @@
+PODS:
+  - NMMultiUnitRuler (0.1.1)
+
+DEPENDENCIES:
+  - NMMultiUnitRuler
+
+SPEC REPOS:
+  trunk:
+    - NMMultiUnitRuler
+
+SPEC CHECKSUMS:
+  NMMultiUnitRuler: 2620fb0c9b8a33931982f793731422395da1c31f
+
+PODFILE CHECKSUM: 388aaee77ddc785ac1e53382f58821319a5dacd7
+
+COCOAPODS: 1.11.3
